@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: #09070f; }
+body { margin: 0; overflow-x: hidden; background: radial-gradient(circle at 70% 30%,#170d25 0,#09070f 38%); color: white; font-family: var(--font-manrope),sans-serif; }
+body:after { content:""; pointer-events:none; position:fixed; inset:0; z-index:100; opacity:.035; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+a,button { -webkit-tap-highlight-color: transparent; }
+a { transition: color .25s ease; }
+.container { width:100%; max-width:1440px; margin-inline:auto; padding-inline:1.25rem; }
+.section { position:relative; padding-block:6rem; scroll-margin-top:4rem; }
+.eyebrow { font-size:.68rem; font-weight:800; letter-spacing:.3em; color:#ff6a00; }
+.section-title { margin-top:1rem; max-width:1050px; font-family:var(--font-unbounded); font-size:clamp(2rem,6vw,5.7rem); font-weight:600; line-height:1.05; letter-spacing:-.05em; }
+.hero-art { animation:heroZoom 16s ease-out both; }
+.hero-title { font-family:var(--font-unbounded); font-size:clamp(3.25rem,10vw,8.5rem); font-weight:650; line-height:.88; letter-spacing:-.07em; }
+.hero-title span { display:block; opacity:0; animation:titleIn 1s .25s cubic-bezier(.22,1,.36,1) forwards; }
+.hero-title .delay { animation-delay:.42s; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.82); }
+.light-leak { position:absolute; width:45vw; height:65vh; right:8%; top:10%; background:#ff4b22; opacity:.11; filter:blur(80px); animation:flash 2.3s ease-out both; }
+.btn { display:inline-flex; min-height:3.5rem; align-items:center; justify-content:center; gap:.7rem; border-radius:999px; padding:.9rem 1.45rem; font-size:.7rem; font-weight:800; letter-spacing:.12em; transition:transform .3s,box-shadow .3s,background .3s; }
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:linear-gradient(120deg,#ff334f,#ff6a00); box-shadow:0 12px 50px rgba(255,51,79,.25); }
+.btn-primary:hover { box-shadow:0 15px 60px rgba(255,51,79,.45); }
+.btn-glass { border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.06); backdrop-filter:blur(15px); }
+.release-card { height:100%; border:1px solid rgba(255,255,255,.07); border-radius:1.35rem; padding:.65rem .65rem 1.2rem; background:rgba(255,255,255,.025); transition:border-color .4s,box-shadow .4s; }
+.release-card:hover { border-color:rgba(255,106,0,.3); box-shadow:0 20px 60px rgba(255,51,79,.12); }
+.orb { position:absolute; width:30rem; height:30rem; border-radius:999px; filter:blur(100px); }
+.masked { overflow:hidden; border-radius:45% 45% 1.5rem 1.5rem; box-shadow:0 30px 100px rgba(255,51,79,.15); }
+.social-card { display:flex; min-height:5.5rem; align-items:center; gap:1rem; border:1px solid color-mix(in srgb,var(--tint) 25%,transparent); border-radius:1rem; background:rgba(9,7,15,.58); padding:1.2rem; font-weight:700; box-shadow:inset 0 0 30px color-mix(in srgb,var(--tint) 5%,transparent); }
+.social-card:hover { border-color:color-mix(in srgb,var(--tint) 60%,transparent); box-shadow:0 12px 40px color-mix(in srgb,var(--tint) 12%,transparent); }
+@keyframes heroZoom { from{transform:scale(1.08)} to{transform:scale(1)} }
+@keyframes titleIn { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:none} }
+@keyframes flash { 0%{opacity:0} 35%{opacity:.25} 100%{opacity:.1} }
+@media(min-width:768px){.container{padding-inline:2.5rem}.section{padding-block:9rem}}
+@media(max-width:380px){.hero-title{font-size:2.85rem}.btn{width:100%;font-size:.65rem}.section-title{font-size:1.85rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

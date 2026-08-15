@@ -41,7 +41,10 @@ export const upcomingHit = {
   eyebrow: 'СКОРО • НОВЫЙ ХИТ',
   title: 'ПРЕМЬЕРА',
   caption: 'Новый визуальный мир Люси Питерской. Первый взгляд — уже здесь.',
-  videoSrc: 'https://github.com/NexitOz/LusiaPiterskaya/raw/refs/heads/main/componentslucypiterska_2026-08-15-13-23-25_1786789405173.mp4',
+  videoSources: [
+    'https://media.githubusercontent.com/media/NexitOz/LusiaPiterskaya/main/componentslucypiterska_2026-08-15-13-23-25_1786789405173.mp4',
+    'https://media.githubusercontent.com/media/NexitOz/LusiaPiterskaya/main/components/lucypiterska_2026-08-15-13-23-25_1786789405173.mp4',
+  ],
   poster: '/art/hero.svg',
 };
 

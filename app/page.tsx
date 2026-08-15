@@ -6,6 +6,7 @@ import { Countdown } from '@/components/Countdown';
 import { VideoGallery } from '@/components/VideoGallery';
 import { SocialIcon } from '@/components/SocialIcon';
 import { OpeningScene } from '@/components/OpeningScene';
+import { UpcomingHit } from '@/components/UpcomingHit';
 import { artist,contact,featuredRelease,releases,socialLinks } from '@/data/artist';
 
 const external={target:'_blank',rel:'noopener noreferrer'} as const;
@@ -18,6 +19,7 @@ export default function Home(){return <main id="top" className="overflow-hidden"
   </section>
 
   <div className="luxury-marquee" aria-hidden="true"><div>ЛЮСЯ ПИТЕРСКАЯ <i/> MUSIC <i/> VISUAL ART <i/> SAINT PETERSBURG <i/> ЛЮСЯ ПИТЕРСКАЯ <i/> MUSIC <i/> VISUAL ART</div></div>
+  <UpcomingHit/>
   <section id="release" className="section relative"><div className="section-beam"/><div className="orb -left-40 top-0 bg-flame/20"/><div className="container grid items-center gap-10 lg:grid-cols-2 lg:gap-20"><Reveal className="relative luxury-frame"><div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-flame/30 to-moon/10 blur-2xl"/><Image src={featuredRelease.cover} alt={`Обложка «${featuredRelease.title}»`} width={800} height={800} className="relative w-full rounded-3xl"/></Reveal><Reveal delay={.1}><p className="eyebrow">НОВЫЙ РЕЛИЗ</p><h2 className="section-title metallic-title mt-4">{featuredRelease.title}</h2><p className="mt-5 max-w-lg leading-8 text-white/55">Песня о хрупких связях, которые собирают внутренний мир воедино.</p>{featuredRelease.releaseDate&&<div className="mt-7"><p className="mb-5 text-sm text-white/50">12.08.2026</p><Countdown date={featuredRelease.releaseDate}/></div>}<a href={featuredRelease.spotifyUrl} {...external} className="btn btn-primary mt-9">СЛУШАТЬ НА ПЛОЩАДКАХ <ArrowUpRight size={17}/></a></Reveal></div></section>
 
   <section id="music" className="section"><div className="container"><SectionTitle eyebrow="ДИСКОГРАФИЯ" title="МУЗЫКА"/><div className="mt-12 flex snap-x gap-4 overflow-x-auto pb-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">{releases.map((r,i)=><Reveal key={r.title} delay={(i%4)*.04} className="min-w-[82vw] snap-center sm:min-w-[48%] md:min-w-0"><article className="release-card group"><div className="relative aspect-square overflow-hidden rounded-2xl"><Image src={r.cover} alt={`Обложка «${r.title}»`} fill loading="lazy" sizes="(max-width:768px) 82vw, 25vw" className="object-cover transition duration-700 group-hover:scale-105"/><a aria-label={`Слушать ${r.title}`} href={r.spotifyUrl} {...external} className="absolute inset-0 grid place-items-center bg-black/20 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100"><span className="grid size-14 place-items-center rounded-full bg-white text-ink"><Play fill="currentColor" size={18}/></span></a></div><h3 className="mt-5 font-display text-sm leading-6">{r.title}</h3><p className="mt-1 text-sm text-white/40">{r.artists}</p></article></Reveal>)}</div></div></section>

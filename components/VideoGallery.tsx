@@ -1,7 +1,98 @@
 'use client';
-import Image from 'next/image';
-import { useEffect,useState } from 'react';
-import { AnimatePresence,motion } from 'framer-motion';
-import { Play,X } from 'lucide-react';
-import { videos } from '@/data/artist';
-export function VideoGallery(){const [active,setActive]=useState<number|null>(null);const item=active===null?null:videos[active];useEffect(()=>{if(active===null)return;const close=(event:KeyboardEvent)=>{if(event.key==='Escape')setActive(null)};document.body.style.overflow='hidden';addEventListener('keydown',close);return()=>{document.body.style.overflow='';removeEventListener('keydown',close)}},[active]);return <><div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">{videos.map((v,i)=><button key={v.title} onClick={()=>setActive(i)} className={`group relative aspect-[9/16] overflow-hidden rounded-2xl border border-white/10 text-left ${i===1?'md:translate-y-16':''}`}>{v.src?<video src={v.src} poster={v.poster} preload="metadata" muted playsInline className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/>:<Image src={v.poster} alt="" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105"/>}<span className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent"/><span className="absolute bottom-5 left-5 right-5 flex items-center justify-between font-display text-xs"><span>{v.title}</span><span className="grid size-10 place-items-center rounded-full bg-white text-ink"><Play size={15} fill="currentColor"/></span></span></button>)}</div><AnimatePresence>{item&&<motion.div role="dialog" aria-modal="true" aria-label={item.title} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="fixed inset-0 z-[70] grid place-items-center bg-black/90 p-4 backdrop-blur-xl" onClick={()=>setActive(null)}><button onClick={()=>setActive(null)} className="absolute right-5 top-5 rounded-full bg-white/10 p-3" aria-label="Закрыть"><X/></button><motion.div initial={{scale:.96}} animate={{scale:1}} className="relative aspect-[9/16] max-h-[88svh] w-full max-w-md overflow-hidden rounded-2xl bg-violet" onClick={e=>e.stopPropagation()}>{item.src?<video src={item.src} poster={item.poster} preload="metadata" controls autoPlay playsInline className="h-full w-full object-cover"/>:<><Image src={item.poster} alt="" fill className="object-cover"/><p className="absolute inset-x-5 bottom-6 rounded-xl bg-black/70 p-4 text-center text-sm">Видео скоро появится</p></>}</motion.div></motion.div>}</AnimatePresence></>}
+
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Maximize2, Pause, Play, Volume2, VolumeX, X } from 'lucide-react';
+import { video } from '@/data/artist';
+
+export function VideoGallery() {
+  const player = useRef<HTMLVideoElement>(null);
+  const reducedMotion = useReducedMotion();
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!expanded) return;
+    const close = (event: KeyboardEvent) => event.key === 'Escape' && setExpanded(false);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    addEventListener('keydown', close);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      removeEventListener('keydown', close);
+    };
+  }, [expanded]);
+
+  const togglePlayback = async () => {
+    if (!player.current) return;
+    if (player.current.paused) await player.current.play();
+    else player.current.pause();
+  };
+
+  return (
+    <>
+      <motion.div
+        initial={reducedMotion ? false : { opacity: 0, scale: 0.96 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="film-frame"
+      >
+        <video
+          ref={player}
+          src={video.src}
+          muted={muted}
+          playsInline
+          loop
+          preload="metadata"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          className="h-full w-full object-cover"
+        />
+        <div className="film-shade" />
+        <div className="film-meta">
+          <div>
+            <p className="eyebrow">ВИДЕОДНЕВНИК • 2026</p>
+            <h3>{video.title}</h3>
+          </div>
+          <div className="flex gap-2">
+            <button className="round-control" onClick={() => setMuted(!muted)} aria-label={muted ? 'Включить звук' : 'Выключить звук'}>
+              {muted ? <VolumeX /> : <Volume2 />}
+            </button>
+            <button className="round-control round-control-main" onClick={togglePlayback} aria-label={playing ? 'Пауза' : 'Воспроизвести'}>
+              {playing ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}
+            </button>
+            <button className="round-control" onClick={() => setExpanded(true)} aria-label="Открыть на весь экран"><Maximize2 /></button>
+          </div>
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={video.title}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="video-dialog"
+            onClick={() => setExpanded(false)}
+          >
+            <button className="dialog-close" onClick={() => setExpanded(false)} aria-label="Закрыть"><X /></button>
+            <motion.video
+              initial={reducedMotion ? false : { scale: 0.96 }}
+              animate={{ scale: 1 }}
+              src={video.src}
+              controls
+              autoPlay
+              playsInline
+              className="dialog-video"
+              onClick={(event) => event.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}

@@ -1,31 +1,100 @@
-import Image from 'next/image';
-import { ArrowDown,ArrowUpRight,Flame,Play } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Headphones, Play, Sparkles } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Reveal } from '@/components/Reveal';
-import { Countdown } from '@/components/Countdown';
-import { VideoGallery } from '@/components/VideoGallery';
 import { SocialIcon } from '@/components/SocialIcon';
-import { artist,contact,featuredRelease,releases,socialLinks } from '@/data/artist';
+import { VideoGallery } from '@/components/VideoGallery';
+import { artist, links, releases, socialLinks, video } from '@/data/artist';
 
-const external={target:'_blank',rel:'noopener noreferrer'} as const;
-function SectionTitle({eyebrow,title}:{eyebrow:string,title:string}){return <Reveal><p className="eyebrow">{eyebrow}</p><h2 className="section-title">{title}</h2></Reveal>}
+const external = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
-export default function Home(){return <main id="top" className="overflow-hidden"><Header/>
-  <section className="relative flex min-h-svh items-end pb-20 pt-32 md:items-center md:pb-0">
-    <div className="hero-art absolute inset-0"><Image src="/art/hero.svg" alt="Кинематографичный образ артистки в огненном свете" fill priority sizes="100vw" className="object-cover object-[62%_center]"/></div><div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/45 to-transparent"/><div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-black/40"/><div className="light-leak"/>
-    <div className="relative mx-auto w-full max-w-[1440px] px-5 md:px-10"><h1 className="hero-title"><span>ЛЮСЯ</span><span className="delay">ПИТЕРСКАЯ</span></h1><p className="mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">{artist.tagline}</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#music" className="btn btn-primary">СЛУШАТЬ МУЗЫКУ <ArrowDown size={17}/></a><a href="#video" className="btn btn-glass">СМОТРЕТЬ ВИДЕО <Play size={16}/></a></div></div><a href="#release" aria-label="Прокрутить к релизу" className="absolute bottom-7 right-7 hidden animate-pulse flex-col items-center gap-2 text-[10px] tracking-[.25em] text-white/50 md:flex">SCROLL<ArrowDown size={16}/></a>
-  </section>
+export default function Home() {
+  return (
+    <main id="top">
+      <Header />
 
-  <section id="release" className="section relative"><div className="orb -left-40 top-0 bg-flame/20"/><div className="container grid items-center gap-10 lg:grid-cols-2 lg:gap-20"><Reveal className="relative"><div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-flame/30 to-moon/10 blur-2xl"/><Image src={featuredRelease.cover} alt={`Обложка «${featuredRelease.title}»`} width={800} height={800} className="relative w-full rounded-3xl"/></Reveal><Reveal delay={.1}><p className="eyebrow">НОВЫЙ РЕЛИЗ</p><h2 className="section-title mt-4">{featuredRelease.title}</h2><p className="mt-5 max-w-lg leading-8 text-white/55">Песня о хрупких связях, которые собирают внутренний мир воедино.</p>{featuredRelease.releaseDate&&<div className="mt-7"><p className="mb-5 text-sm text-white/50">12.08.2026</p><Countdown date={featuredRelease.releaseDate}/></div>}<a href={featuredRelease.spotifyUrl} {...external} className="btn btn-primary mt-9">СЛУШАТЬ НА ПЛОЩАДКАХ <ArrowUpRight size={17}/></a></Reveal></div></section>
+      <section className="hero">
+        <video className="hero-video" src={video.src} muted autoPlay loop playsInline preload="metadata" aria-hidden="true" />
+        <div className="hero-wash" />
+        <div className="aurora aurora-one" />
+        <div className="aurora aurora-two" />
+        <div className="hero-content">
+          <p className="hero-kicker"><Sparkles size={14} /> НОВАЯ ГЛАВА</p>
+          <h1><span>ЛЮСЯ</span><span>ПИТЕРСКАЯ</span></h1>
+          <p className="hero-copy">{artist.tagline}</p>
+          <div className="hero-actions">
+            <a href={links.yandex} {...external} className="button button-light"><Headphones size={17} /> СЛУШАТЬ</a>
+            <a href="#film" className="button button-ghost"><Play size={16} /> СМОТРЕТЬ</a>
+          </div>
+        </div>
+        <a href="#new" className="scroll-cue">ЛИСТАТЬ <ArrowDown size={15} /></a>
+      </section>
 
-  <section id="music" className="section"><div className="container"><SectionTitle eyebrow="ДИСКОГРАФИЯ" title="МУЗЫКА"/><div className="mt-12 flex snap-x gap-4 overflow-x-auto pb-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">{releases.map((r,i)=><Reveal key={r.title} delay={(i%4)*.04} className="min-w-[82vw] snap-center sm:min-w-[48%] md:min-w-0"><article className="release-card group"><div className="relative aspect-square overflow-hidden rounded-2xl"><Image src={r.cover} alt={`Обложка «${r.title}»`} fill loading="lazy" sizes="(max-width:768px) 82vw, 25vw" className="object-cover transition duration-700 group-hover:scale-105"/><a aria-label={`Слушать ${r.title}`} href={r.spotifyUrl} {...external} className="absolute inset-0 grid place-items-center bg-black/20 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100"><span className="grid size-14 place-items-center rounded-full bg-white text-ink"><Play fill="currentColor" size={18}/></span></a></div><h3 className="mt-5 font-display text-sm leading-6">{r.title}</h3><p className="mt-1 text-sm text-white/40">{r.artists}</p></article></Reveal>)}</div></div></section>
+      <section id="new" className="chapter chapter-new">
+        <div className="night-orb" />
+        <div className="page-shell">
+          <Reveal>
+            <p className="eyebrow">СЕЙЧАС В ЭФИРЕ</p>
+            <h2 className="display-title">Музыка,<br />которая <i>светится</i><br />в темноте.</h2>
+          </Reveal>
+          <div className="new-grid">
+            {releases.slice(0, 3).map((release, index) => (
+              <Reveal key={release.title} delay={index * 0.08} className={`track-feature track-feature-${index + 1}`}>
+                <div className="track-glow" style={{ background: release.accent }} />
+                <span className="track-number">0{index + 1}</span>
+                <div>
+                  <p className="track-label">НОВЫЙ ТРЕК</p>
+                  <h3>{release.title}</h3>
+                  <p>{release.artists}</p>
+                </div>
+                <a href={index === 0 ? links.spotify : links.yandex} {...external} aria-label={`Открыть каталог: ${release.title}`} className="track-link"><ArrowUpRight /></a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-  <section id="video" className="section bg-white/[.02]"><div className="container"><SectionTitle eyebrow="КИНО • MUSIC • ART" title="ВИЗУАЛЬНЫЕ ИСТОРИИ"/><div className="mt-12 md:pb-16"><VideoGallery/></div></div></section>
+      <section id="music" className="chapter catalog">
+        <div className="page-shell">
+          <Reveal className="section-heading">
+            <div><p className="eyebrow">ДИСКОГРАФИЯ</p><h2 className="display-title">Ночные<br />частоты</h2></div>
+            <p>Выбор из опубликованного каталога. Полная дискография доступна на официальных страницах артистки.</p>
+          </Reveal>
+          <div className="track-list">
+            {releases.map((release, index) => (
+              <Reveal key={release.title} delay={(index % 4) * 0.035}>
+                <article className="track-row" style={{ '--accent': release.accent } as React.CSSProperties}>
+                  <span className="track-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="track-dot" />
+                  <div><h3>{release.title}</h3><p>{release.artists}</p></div>
+                  <a href={links.yandex} {...external} aria-label={`Слушать ${release.title}`}><Play size={14} fill="currentColor" /></a>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <div className="platform-actions">
+            <a href={links.spotify} {...external} className="button button-light">SPOTIFY <ArrowUpRight size={16} /></a>
+            <a href={links.yandex} {...external} className="button button-ghost">ЯНДЕКС МУЗЫКА <ArrowUpRight size={16} /></a>
+          </div>
+        </div>
+      </section>
 
-  <section id="about" className="section"><div className="container grid items-center gap-12 lg:grid-cols-[.9fr_1fr] lg:gap-24"><Reveal><div className="masked relative aspect-[4/5]"><Image src="/art/portrait.svg" alt="Визуальный портрет Люси Питерской" fill loading="lazy" sizes="(max-width:1024px) 100vw, 45vw" className="object-cover"/></div></Reveal><Reveal><p className="eyebrow">ОБ АРТИСТКЕ</p><h2 className="section-title">ЛЮСЯ<br/>ПИТЕРСКАЯ</h2><p className="mt-7 max-w-xl text-lg leading-9 text-white/60">{artist.bio}</p></Reveal></div></section>
+      <section id="film" className="chapter film-section">
+        <div className="page-shell film-grid">
+          <Reveal className="film-intro"><p className="eyebrow">ВИЗУАЛЬНЫЙ ДНЕВНИК</p><h2 className="display-title">Один кадр.<br />Целая история.</h2><p>Живое видео артистки вместо декоративных заглушек. Включите звук — и останьтесь в моменте.</p></Reveal>
+          <VideoGallery />
+        </div>
+      </section>
 
-  <section id="listen" className="section relative"><div className="absolute inset-0 bg-gradient-to-r from-rose/10 via-flame/10 to-gold/10"/><div className="container relative"><SectionTitle eyebrow="ВСЕГДА НА СВЯЗИ" title="СЛУШАЙ. СМОТРИ. ПОДПИСЫВАЙСЯ."/><div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{socialLinks.map(s=><a key={s.name} href={s.url} {...external} style={{'--tint':s.tint} as React.CSSProperties} className="social-card"><SocialIcon name={s.icon}/><span>{s.name}</span><ArrowUpRight className="ml-auto" size={16}/></a>)}</div></div></section>
+      <section id="about" className="chapter about-section">
+        <div className="about-media" aria-hidden="true"><video src={video.src} muted autoPlay loop playsInline preload="metadata" /></div>
+        <div className="about-copy"><Reveal><p className="eyebrow">ЛЮСЯ ПИТЕРСКАЯ</p><h2 className="display-title">Не образ.<br /><i>Состояние.</i></h2><p>{artist.bio}</p><a href={links.instagram} {...external} className="text-link">БОЛЬШЕ В INSTAGRAM <ArrowUpRight size={16} /></a></Reveal></div>
+      </section>
 
-  <section id="contact" className="section text-center"><Reveal className="container"><Flame className="mx-auto mb-7 text-flame"/><p className="eyebrow">КОНТАКТ</p><h2 className="section-title">СОТРУДНИЧЕСТВО</h2><p className="mt-6 text-white/55">Музыка • коллаборации • видео • творческие проекты</p>{contact.email&&<a href={`mailto:${contact.email}`} className="btn btn-primary mt-8">СВЯЗАТЬСЯ</a>}<div className="mt-8 flex justify-center gap-6 text-sm"><a href={contact.instagram} {...external}>Instagram ↗</a><a href={contact.vk} {...external}>VK ↗</a></div></Reveal></section>
-  <footer className="border-t border-white/10 px-5 py-10"><div className="mx-auto flex max-w-[1440px] flex-col gap-7 text-sm text-white/45 md:flex-row md:items-center md:justify-between"><p>Люся Питерская © 2026</p><p className="max-w-md text-center">«{artist.footerPhrase}»</p><div className="flex flex-wrap justify-center gap-4">{socialLinks.map(s=><a key={s.name} href={s.url} {...external}>{s.name}</a>)}</div></div></footer>
-  </main>}
+      <section id="connect" className="chapter connect-section">
+        <div className="page-shell"><Reveal><p className="eyebrow">ОСТАВАТЬСЯ РЯДОМ</p><h2 className="display-title">Встретимся<br />в твоей ленте.</h2></Reveal><div className="social-grid">{socialLinks.map((social) => <a key={social.name} href={social.url} {...external} style={{ '--tint': social.tint } as React.CSSProperties} className="social-card"><SocialIcon name={social.icon} /><span>{social.name}</span><ArrowUpRight size={16} /></a>)}</div></div>
+      </section>
+
+      <footer><div><strong>ЛЮСЯ ПИТЕРСКАЯ</strong><p>© 2026</p></div><p>«{artist.footerPhrase}»</p><a href="#top">НАВЕРХ ↑</a></footer>
+    </main>
+  );
+}

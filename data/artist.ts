@@ -1,40 +1,49 @@
-export type Release = { title: string; artists: string; cover: string; releaseDate?: string; spotifyUrl?: string; yandexUrl?: string; externalUrl?: string };
-
-const spotify = 'https://open.spotify.com/artist/2qiQeFKHvHI50ler9h86kD';
-const yandex = 'https://music.yandex.ru/artist/25514952';
-
-// TODO: заменить после утверждения артисткой.
-const approvedBio = 'Авторские песни, визуальные истории и эксперименты на границе музыки и цифрового искусства. Каждый трек получает собственный образ, настроение и маленькую вселенную.';
-
-export const BOOKING_EMAIL = '';
+export type Release = {
+  title: string;
+  artists: string;
+  accent: string;
+};
 
 export const artist = {
   name: 'Люся Питерская',
-  tagline: 'Музыка. Истории. Миры между реальностью и воображением.',
-  bio: approvedBio,
-  footerPhrase: 'Музыка начинается там, где заканчиваются обычные слова.',
+  tagline: 'Авторская музыка на границе сна, света и внутренней свободы.',
+  bio: 'Люся Питерская создаёт песни как короткие фильмы: с узнаваемыми образами, неожиданными сюжетами и эмоциональным послевкусием. В её музыке электронное звучание встречается с личными историями, иронией и любовью к визуальному эксперименту.',
+  footerPhrase: 'Там, где ночь становится музыкой.',
+};
+
+export const links = {
+  spotify: 'https://open.spotify.com/artist/2qiQeFKHvHI50ler9h86kD',
+  yandex: 'https://music.yandex.ru/artist/25514952',
+  instagram: 'https://www.instagram.com/lucypiterska?igsh=ZzRpYW52NW9heGRq',
+  vk: 'https://vk.ru/lyusyapiterskaya25',
+  tiktok: 'https://www.tiktok.com/@lucypiterska?_r=1&_t=ZN-98jwYGWRaSM',
 };
 
 export const socialLinks = [
-  { name: 'Spotify', url: spotify, icon: 'spotify', tint: '#1ED760' },
-  { name: 'Яндекс Музыка', url: yandex, icon: 'yandex', tint: '#FF334F' },
-  { name: 'Instagram', url: 'https://www.instagram.com/lucypiterska?igsh=ZzRpYW52NW9heGRq', icon: 'instagram', tint: '#FF2E93' },
-  { name: 'VK', url: 'https://vk.ru/lyusyapiterskaya25', icon: 'vk', tint: '#78CFFF' },
-  { name: 'TikTok', url: 'https://www.tiktok.com/@lucypiterska?_r=1&_t=ZN-98jwYGWRaSM', icon: 'tiktok', tint: '#FFC857' },
+  { name: 'Spotify', url: links.spotify, icon: 'spotify', tint: '#95f9d8' },
+  { name: 'Яндекс Музыка', url: links.yandex, icon: 'yandex', tint: '#ff88d1' },
+  { name: 'Instagram', url: links.instagram, icon: 'instagram', tint: '#c4a8ff' },
+  { name: 'VK', url: links.vk, icon: 'vk', tint: '#8ed8ff' },
+  { name: 'TikTok', url: links.tiktok, icon: 'tiktok', tint: '#ffffff' },
 ] as const;
 
-export const featuredRelease: Release = { title: 'Собери воедино', artists: artist.name, cover: '/art/cover-2.svg', releaseDate: '2026-08-12', spotifyUrl: spotify, yandexUrl: yandex };
-
-const titles = ['Я гадала по Луне','Пульс Тишины','Как тебе такое, Илон Маск?','Africa','Mutabor','You are my new hero','Зов предков','Губы со вкусом замёрзшей вишни','Она танцует медленно дико'];
+// Названия взяты из опубликованного каталога артистки. Даты и прямые ссылки на
+// конкретные треки не указываются без повторной сверки с площадками.
 export const releases: Release[] = [
-  { title: 'Ты моя теория', artists: artist.name, cover: '/art/cover-1.svg', spotifyUrl: spotify, yandexUrl: yandex },
-  ...titles.map((title, index) => ({ title, artists: artist.name, cover: index % 2 ? '/art/cover-1.svg' : '/art/cover-2.svg', spotifyUrl: spotify, yandexUrl: yandex })),
+  { title: 'Я гадала по Луне', artists: artist.name, accent: '#a58cff' },
+  { title: 'Пульс Тишины', artists: artist.name, accent: '#72b8ff' },
+  { title: 'Как тебе такое, Илон Маск?', artists: artist.name, accent: '#ff88d1' },
+  { title: 'Africa', artists: artist.name, accent: '#ffc27a' },
+  { title: 'Mutabor', artists: artist.name, accent: '#d4ff9c' },
+  { title: 'You are my new hero', artists: artist.name, accent: '#92e8ff' },
+  { title: 'Зов предков', artists: artist.name, accent: '#d8b58b' },
+  { title: 'Губы со вкусом замёрзшей вишни', artists: artist.name, accent: '#ff779a' },
+  { title: 'Она танцует медленно дико', artists: artist.name, accent: '#c799ff' },
 ];
 
-export const videos = [
-  { title: 'Между мирами', src: '', poster: '/art/portrait.svg' },
-  { title: 'Огненный свет', src: '', poster: '/art/hero.svg' },
-  { title: 'Лунная вода', src: '', poster: '/art/cover-2.svg' },
-];
+export const video = {
+  title: 'Ночное сияние',
+  src: '/media/lucypiterska-2026-08-15.mp4',
+};
 
-export const contact = { email: BOOKING_EMAIL, instagram: socialLinks[2].url, vk: socialLinks[3].url };
+export const contact = { email: '', instagram: links.instagram, vk: links.vk };

@@ -1,6 +1,30 @@
 'use client';
-import { useEffect,useState } from 'react';
-import { Menu,X } from 'lucide-react';
-import { AnimatePresence,motion } from 'framer-motion';
-const links=[['Музыка','#music'],['Видео','#video'],['Об артистке','#about'],['Слушать','#listen'],['Соцсети','#contact']];
-export function Header(){const [scrolled,setScrolled]=useState(false),[open,setOpen]=useState(false);useEffect(()=>{const fn=()=>setScrolled(scrollY>30);addEventListener('scroll',fn,{passive:true});return()=>removeEventListener('scroll',fn)},[]);return <header className={`fixed inset-x-0 top-0 z-50 transition ${scrolled||open?'bg-ink/80 backdrop-blur-xl border-b border-white/10':''}`}><div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 md:px-10"><a href="#top" className="font-display text-xs font-semibold tracking-[.15em]">ЛЮСЯ ПИТЕРСКАЯ</a><nav className="hidden gap-7 text-sm text-white/70 lg:flex">{links.map(([n,h])=><a key={h} href={h} className="hover:text-white">{n}</a>)}</nav><button className="relative z-10 p-3 lg:hidden" aria-label={open?'Закрыть меню':'Открыть меню'} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div><AnimatePresence>{open&&<motion.nav initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="fixed inset-0 -z-10 flex min-h-svh flex-col items-center justify-center gap-8 bg-ink/95 font-display text-xl lg:hidden">{links.map(([n,h],i)=><motion.a initial={{y:20,opacity:0}} animate={{y:0,opacity:1}} transition={{delay:i*.06}} key={h} href={h} onClick={()=>setOpen(false)}>{n}</motion.a>)}</motion.nav>}</AnimatePresence></header>}
+
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+
+const links = [['Музыка', '#music'], ['Видео', '#film'], ['Об артистке', '#about'], ['Соцсети', '#connect']];
+
+export function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(scrollY > 24);
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+    return () => removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <header className={scrolled || open ? 'header header-solid' : 'header'}>
+      <div className="header-inner">
+        <a href="#top" className="wordmark">ЛП<span>✦</span></a>
+        <nav className="desktop-nav">{links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+        <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? 'Закрыть меню' : 'Открыть меню'}>{open ? <X /> : <Menu />}</button>
+      </div>
+      <AnimatePresence>{open && <motion.nav initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mobile-nav">{links.map(([label, href], index) => <motion.a initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: index * 0.05 }} key={href} href={href} onClick={() => setOpen(false)}>{label}</motion.a>)}</motion.nav>}</AnimatePresence>
+    </header>
+  );
+}

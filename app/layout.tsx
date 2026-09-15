@@ -1,16 +1,22 @@
 import type { Metadata } from 'next';
-import { Manrope, Unbounded } from 'next/font/google';
 import './globals.css';
 import { socialLinks } from '@/data/artist';
 
-const manrope = Manrope({ subsets: ['cyrillic', 'latin'], variable: '--font-manrope', display: 'swap' });
-const unbounded = Unbounded({ subsets: ['cyrillic', 'latin'], variable: '--font-unbounded', display: 'swap' });
-const title = 'Люся Питерская — официальный сайт | Музыка и видео';
-const description = 'Официальный сайт Люси Питерской. Новые песни, релизы, видео и ссылки на музыкальные площадки.';
+const siteUrl = 'https://lusia-piterskaya.vercel.app';
+const title = 'Люся Питерская — музыка и визуальные истории';
+const description = 'Официальный сайт Люси Питерской: музыка, видео и ссылки на страницы артистки.';
 
-export const metadata: Metadata = { metadataBase: new URL('https://example.com'), title, description, alternates:{canonical:'/'}, icons:{icon:'/favicon.svg'}, openGraph:{title,description,type:'website',locale:'ru_RU',images:['/art/hero.svg']}, twitter:{card:'summary_large_image',title,description,images:['/art/hero.svg']} };
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  alternates: { canonical: '/' },
+  icons: { icon: '/favicon.svg' },
+  openGraph: { title, description, type: 'website', locale: 'ru_RU', url: siteUrl },
+  twitter: { card: 'summary', title, description },
+};
 
-export default function RootLayout({children}:{children:React.ReactNode}) {
-  const schema = { '@context':'https://schema.org','@type':'MusicGroup',name:'Люся Питерская',url:'https://example.com',sameAs:socialLinks.map(x=>x.url) };
-  return <html lang="ru" className={`${manrope.variable} ${unbounded.variable}`}><body><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}} />{children}</body></html>;
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const schema = { '@context': 'https://schema.org', '@type': 'MusicGroup', name: 'Люся Питерская', url: siteUrl, sameAs: socialLinks.map((link) => link.url) };
+  return <html lang="ru"><body><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />{children}</body></html>;
 }

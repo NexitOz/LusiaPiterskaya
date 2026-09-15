@@ -32,7 +32,7 @@ export const releases: Release[] = [
 ];
 
 export const videos = [
-  { title: 'Между мирами', src: '', poster: '/art/portrait.svg' },
+  { title: 'Между мирами', src: '/media/lucypiterska-2026-08-15.mp4', poster: '/art/portrait.svg' },
   { title: 'Огненный свет', src: '', poster: '/art/hero.svg' },
   { title: 'Лунная вода', src: '', poster: '/art/cover-2.svg' },
 ];

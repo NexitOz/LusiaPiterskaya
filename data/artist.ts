@@ -30,7 +30,6 @@ export const socialLinks = [
 // Названия взяты из опубликованного каталога артистки. Даты и прямые ссылки на
 // конкретные треки не указываются без повторной сверки с площадками.
 export const releases: Release[] = [
-  { title: 'Ты моя теория', artists: artist.name, accent: '#95f9d8' },
   { title: 'Я гадала по Луне', artists: artist.name, accent: '#a58cff' },
   { title: 'Пульс Тишины', artists: artist.name, accent: '#72b8ff' },
   { title: 'Как тебе такое, Илон Маск?', artists: artist.name, accent: '#ff88d1' },
